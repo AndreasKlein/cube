@@ -28,13 +28,13 @@ var x1 = [1,2,3]
   , fields = {
     x1: x1.concat(x1, x1, x1),
     x2: x2.concat(x2, x2, x2),
-    x3: x3.concat(x3).concat(x3).concat(x3),
-    y1: y1.concat(y1).concat(y1).concat(y1),
-    y2: y2.concat(y2).concat(y2).concat(y2),
-    y3: y3.concat(y3).concat(y3).concat(y3),
-    z1: y1.concat(x1).concat(y3).concat(x3),
-    z2: y2.concat(x2).concat(y2).concat(x2),
-    z3: y3.concat(x3).concat(y1).concat(x1),
+    x3: x3.concat(x3, x3, x3),
+    y1: y1.concat(y1, y3, y1),
+    y2: y2.concat(y2, y2, y2),
+    y3: y3.concat(y3, y1, y3),
+    z1: y1.concat(x3, y3, x1),
+    z2: y2.concat(x2, y2, x2),
+    z3: y3.concat(x3, y1, x1),
   }
   , X = [1,2,3,4]
   , Y = [1,6,3,5]
@@ -73,19 +73,28 @@ function move(axis, direction) {
   if (!movement) return;
 
   for (var i = 0; i < movement.length; i++) {
-    var side = movement[i]
-      , targetfields = fields[axis].slice(i*3, (i+1)*3)
-      , nextSide = direction === "left" ? movement[i+1] : movement[i-1];
-    if (!nextSide) nextSide = (i === 0) ? movement[movement.length-1] : movement[0];
-    targetfields.forEach(function(num, j) {
-      if (i === 0) temp[num] = cube['s'+side][num];
-      if (i === movement.length-1) cube['s'+side][num] = temp[Object.keys(temp)[j]];
-      else cube['s'+side][num] = cube['s'+nextSide][num];
+    var targetSide = (direction === "left") ? movement[(-i < 0) ? movement.length-i : -i] : movement[i]
+      , targetFields = fields[axis].slice(i*3, (i+1)*3)
+      , srcSide = direction === "left" ? movement[i+1] : movement[i-1];
+
+    if (!srcSide) srcSide = (i === 0) ? movement[movement.length-1] : movement[0];
+
+    targetFields.forEach(function(num, j) {
+      if (i === 0) temp[num] = cube['s'+srcSide][num];
+
+      var c = cube['s'+targetSide][num];
+      cube['s'+targetSide][num] = temp[num];
+      var nextTargetFields = fields[axis].slice((i+1)*3, (i+2)*3);
+      temp[nextTargetFields[j]] = c;
+
+      // else if (i === movement.length-1) cube['s'+targetSide][num] = temp[Object.keys(temp)[j]];
+      // else cube['s'+targetSide][num] = temp['s'+srcSide][num];
     }); 
   }
 }
 
 $scope.cube = cube;
 $scope.move = move; 
+$scope.axises = Object.keys(movementMap);
   
 }]);
