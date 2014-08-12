@@ -1,3 +1,10 @@
+var app = angular.module('Cube', []);
+
+app.controller('cube', 
+
+        ['$scope',
+function( $scope ) {
+
 // cube
 // sides
 // s5
@@ -63,6 +70,8 @@ function move(axis, direction) {
   var movement = movementMap[axis]
     , temp = {};
 
+  if (!movement) return;
+
   for (var i = 0; i < movement.length; i++) {
     var side = movement[i]
       , targetfields = fields[axis].slice(i*3, (i+1)*3)
@@ -76,6 +85,7 @@ function move(axis, direction) {
   }
 }
 
-console.log(cube)
-move('z3', 'left');
-console.log(cube)
+$scope.cube = cube;
+$scope.move = move; 
+  
+}]);
