@@ -1,67 +1,69 @@
+<!DOCTYPE html>
 <html>
- <style>
-  .cube {
-  }
-  .side {
-   display: inline-block;
-   position: relative;
-   float: left;
-   margin: 5px;
-   margin-top: 175px;
-  }
-  .side:nth-child(5) {
-    position: absolute;
-    top: 5px;
-    left: 7px;
-    margin-top: 5px;
-  }
-  .side:nth-child(6) {
-    position: absolute;
-    top: 350px;
-    left: 7px;
-    margin-top: 5px;
-  }
-  .field {
-   display: inline-block;
-   position: relative;
-   width: 50px;
-   height: 50px;
-   border: 2px solid #eee;
-   float: left;
-  }
-  .field:nth-child(3n+1) {
-   clear: both;
-  }
-  .remote {
-    position: fixed;
-    top: 5px;
-    right: 5px;
-  }
- </style>
- <body ng-app="Cube">
-  <head>
-  <title>THE CUBE</title>
-  </head>
-  <div ng-controller="cube">
-   <div class="cube">
-    <div class="side" ng-repeat="(id, side) in cube">
-     <div 
-      class="field" 
-      ng-repeat="(num, color) in side"
-      ng-style="{'background-color': color}"></div> 
-    </div>
-   </div>
-   <div class="remote">
-    <select ng-model="axis" ng-options="axis for axis in axises"></select>
-    <select ng-model="direction">
-      <option>left</option>
-      <option>right</option>
-    </select>
-    <button ng-click="move(axis, direction)" value="Move">Move</button>
-   </div>
+<head>
+<title>THE CUBE</title>
+<style>
+.cube {
+}
+.side {
+ display: inline-block;
+ position: relative;
+ float: left;
+ margin: 5px;
+ margin-top: 175px;
+}
+.side:nth-child(5) {
+  position: absolute;
+  top: 5px;
+  left: 7px;
+  margin-top: 5px;
+}
+.side:nth-child(6) {
+  position: absolute;
+  top: 350px;
+  left: 7px;
+  margin-top: 5px;
+}
+.field {
+ display: inline-block;
+ position: relative;
+ width: 50px;
+ height: 50px;
+ border: 2px solid #eee;
+ float: left;
+}
+.field:nth-child(3n+1) {
+ clear: both;
+}
+.remote {
+  position: fixed;
+  top: 5px;
+  right: 5px;
+}
+</style>
+</head>
+
+<body ng-app="Cube">
+<div ng-controller="cube">
+ <div class="cube">
+  <div class="side" ng-repeat="(id, side) in cube">
+   <div 
+    class="field" 
+    ng-repeat="(num, color) in side"
+    ng-style="{'background-color': color}"></div> 
   </div>
-  <br>
-  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.17/angular.min.js"></script>
-  <script src="app.js"></script>
- </body>
+ </div>
+ <div class="remote">
+  <select ng-model="axis" ng-options="axis for axis in axises"></select>
+  <select ng-model="direction">
+    <option>left</option>
+    <option>right</option>
+  </select>
+  <button ng-click="move(axis, direction)" value="Move">Move</button>
+ </div>
+</div>
+<br>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.17/angular.min.js"></script>
+<script src="app.js"></script>
+</body>
 </html>
